@@ -5,14 +5,41 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <title>Lukášik</title>
+
         <link rel="stylesheet" href="./static/compiled.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" referrerpolicy="no-referrer" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.min.js" integrity="sha512-n4mkhsTTwnEox+TGRnxJmtvrU+Rgec7NUjrHmZE7RlYOim+XLwgMMe1/jovYl/Eh24hvPLKgX0QGdPfATAphqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <style>
+            #kontajnerKonfet {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                z-index: 9999;
+            }
 
-        <title>Lukášik</title>
+            .casticakonfet {
+                position: absolute;
+                height: 10px;
+                width: 10px;
+                background-color: rgba(255, 0, 0, 0.6);
+                opacity: 0.7;
+                transform-origin: center;
+            }
+
+            @keyframes padaj {
+                to {
+                    transform: translateY(calc(100vh + 10px));
+                }
+            }
+        </style>
     </head>
     <body class="bg-black text-white h-screen flex justify-center items-center">
+        <div id="kontajnerKonfet"></div>
+
         <div class="text-center p-10 rounded-lg shadow-lg bg-white md:max-w-2xl mx-4">
             <h1 class="text-red-600 text-4xl md:text-6xl font-bold animate__animated animate__bounceInDown">Všetko najlepšie k 18. narodeninám!</h1>
             <p class="mt-4 text-black text-xl md:text-2xl animate__animated animate__fadeIn animate__delay-1s">Milý kamarát, želám Ti veľa šťastných dní, úspechov a nech Ti všetko ide tak, ako si predstavuješ!</p>
@@ -22,18 +49,36 @@
         </div>
 
         <script>
-            var platno = document.createElement('canvas');
-            document.body.appendChild(platno);
+           const kontajnerKonfet = document.getElementById('kontajnerKonfet');
+            
+            function vytvorCasticuKonfet() {
+                const casticakonfet = document.createElement('div');
+                casticakonfet.classList.add('casticakonfet');
+            
+                // Náhodné farby
+                const farby = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink'];
+                casticakonfet.style.backgroundColor = farby[Math.floor(Math.random() * farby.length)];
+            
+                // Náhodná počiatočná pozícia
+                casticakonfet.style.left = Math.random() * window.innerWidth + 'px';
+            
+                // Náhodná rotácia
+                casticakonfet.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+            
+                kontajnerKonfet.appendChild(casticakonfet);
+            
+                // Animácia padania
+                casticakonfet.style.animation = `padaj ${Math.random() + 0.5}s linear infinite`;
+            
+                // Odstránenie po páde z obrazovky
+                setTimeout(() => {
+                    casticakonfet.remove();
+                }, 1000);
+            }
+            
+            // Vytvorenie novej častice konfet každých 100 milisekúnd
+            setInterval(vytvorCasticuKonfet, 100);
 
-            var konfety = confetti.create(platno, {
-              resize: true,
-              useWorker: true
-            });
-
-            konfety({
-              particleCount: 100,
-              spread: 160
-            });
         </script>
     </body>
 </html>
