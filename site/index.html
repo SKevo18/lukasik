@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="./static/compiled.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" referrerpolicy="no-referrer" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.js" integrity="sha512-0ViRWLdCS+1HFJ0igJIzdCU08vwbOjCdNdIBuvG+vA5rj60K3U69K2M5B9Nq8SyFllzyknmsLGDukA3mS9Adxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.min.js" integrity="sha512-n4mkhsTTwnEox+TGRnxJmtvrU+Rgec7NUjrHmZE7RlYOim+XLwgMMe1/jovYl/Eh24hvPLKgX0QGdPfATAphqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <title>Lukášik</title>
     </head>
@@ -22,26 +22,18 @@
         </div>
 
         <script>
-            var dlzka = 1 * 1000;
-            var koniec = Date.now() + dlzka;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            var platno = document.createElement('canvas');
+            document.body.appendChild(platno);
 
-            function nahodna(min, max) {
-              return Math.random() * (max - min) + min;
-            }
+            var konfety = confetti.create(platno, {
+              resize: true,
+              useWorker: true
+            });
 
-
-            var interval = setInterval(function() {
-                var zostavajuciCas = koniec - Date.now();
-                
-                if (zostavajuciCas <= 0) {
-                    return clearInterval(interval);
-                }
-                
-                var particleCount = 50 * (zostavajuciCas / dlzka);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: nahodna(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: nahodna(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+            konfety({
+              particleCount: 100,
+              spread: 160
+            });
         </script>
     </body>
 </html>
